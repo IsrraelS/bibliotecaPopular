@@ -1,6 +1,6 @@
 import { Router } from "express";
-import { getBooks, createBook, updateBook, deleteBook } from "./controllers/book.controller";
-//getBookById
+import { getBooks, createBook, updateBook, deleteBook, getBooksById } from "./controllers/book.controller";
+//
 
 const router = Router();
 
@@ -9,7 +9,7 @@ router.post("/" , createBook);
 router.put("/:id", updateBook);     
 router.delete("/:id", deleteBook); 
 // Obtener un libro por ID
-//router.get("/:id", getBookById);
+router.get("/:id", getBooksById);
 
 
 

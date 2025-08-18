@@ -11,18 +11,38 @@ export const getBooks = async (req: Request, res: Response) => {
     }
 }; 
 
-//POST
-export const createBook = async (req: Request, res: Response) => {
+// Obtener libro por ID
+export const getBooksById = async (req: Request, res: Response) => {
     try {
-        const newBook = new BookModel(req.body);
-        await newBook.save();
-        res.status(201).json(newBook);
+      const book = await BookModel.findById(req.params.id);
+      if (!book) return res.status(404).json({ message: "Libro no encontrado" });
+      res.json(book);
+    } catch (error) {
+      res.status(500).json({ error: "Error al obtener libro" });
+    }
+  };
+
+//POST
+
+export const createBook = async (req: Request, res: Response) => {
+  try {
+    const newBook = await BookModel.create(req.body);
+    return res.status(201).json(newBook);
+  } catch (error) {
+    console.error('Error al crear el libro:', error); // Agrega este log para ver la causa real
+    return res.status(400).json({ error: 'Error al crear el libro' });
+  }
+};
+/* export const createBook = async (req: Request, res: Response) => {
+    try {
+        const newBook = await BookModel.create(req.body);
+        return res.status(201).json(newBook);
     }   catch (error) {
         res.status(400).json({ error: "Error al crear el libro" });
     }
-};
+}; */
 
-//PUT 
+//PUT by ID
 export const updateBook = async (req: Request, res: Response) => {
     try {
       const updatedBook = await BookModel.findByIdAndUpdate(
@@ -39,7 +59,7 @@ export const updateBook = async (req: Request, res: Response) => {
     }
   };
   
-  //DELETE
+  //DELETE by ID
   export const deleteBook = async (req: Request, res: Response) => {
     try {
       const deletedBook = await BookModel.findByIdAndDelete(req.params.id);

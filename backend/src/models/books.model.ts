@@ -1,14 +1,20 @@
 import mongoose, { Schema, Document } from "mongoose";
 
-// 1️⃣ Definir interfaz del libro
+//  Definir interfaz del libro
 export interface IBook extends Document {
+  id: string;
   title: string;
   author: string;
   year: number;
 }
 
-// 2️⃣ Definir el esquema de Mongoose
+//  Definir el esquema de Mongoose
 const BookSchema: Schema = new Schema({
+  id: {
+    type: String,
+    required: true,
+    trim: true
+  },
   title: {
     type: String,
     required: true,
@@ -27,5 +33,5 @@ const BookSchema: Schema = new Schema({
   timestamps: true // añade createdAt y updatedAt automáticamente
 });
 
-// 3️⃣ Crear y exportar el modelo
+// 3Crear y exportar el modelo
 export const BookModel = mongoose.model<IBook>("Book", BookSchema);
